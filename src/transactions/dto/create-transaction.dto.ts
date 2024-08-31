@@ -9,5 +9,6 @@ export class CreateTransactionDto {
 
   @IsString()
   type: string;
+
   userId: string;
 }

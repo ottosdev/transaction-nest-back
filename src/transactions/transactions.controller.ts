@@ -26,10 +26,8 @@ export class TransactionsController {
     @Body() createTransactionDto: CreateTransactionDto,
     @Req() request: Request,
   ) {
-    const user = request['user'];
-    createTransactionDto.userId = user.sub;
-
-    return this.transactionsService.create(createTransactionDto);
+    const userId = request['user'].sub;
+    return this.transactionsService.create(createTransactionDto, userId);
   }
 
   @Get()

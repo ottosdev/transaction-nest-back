@@ -60,7 +60,6 @@ export class AuthService {
 
     return {
       token,
-      name: payload.name,
     };
   }
 }

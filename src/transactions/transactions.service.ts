@@ -8,7 +8,8 @@ import { UpdateTransactionDto } from './dto/update-transaction.dto';
 export class TransactionsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: CreateTransactionDto) {
+  async create(data: CreateTransactionDto, userId: string) {
+    data.userId = userId;
     return this.prisma.transactions.create({
       data,
     });

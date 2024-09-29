@@ -51,7 +51,7 @@ export class AuthService {
       throw new UnauthorizedException('Wrong credentials');
     }
 
-    const payload = { sub: user.id, name: user.name };
+      const payload = { sub: user.id, name: user.name };
     return this.generateJwtToken(payload);
   }
 

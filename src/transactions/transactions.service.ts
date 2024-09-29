@@ -8,27 +8,19 @@ import { UpdateTransactionDto } from './dto/update-transaction.dto';
 export class TransactionsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: CreateTransactionDto, userId: string) {
-    data.userId = userId;
+  async create(data: CreateTransactionDto) {
+    // data.userId = userId;
     return this.prisma.transactions.create({
       data,
     });
   }
 
-  async findAll(userId: string) {
-    return this.prisma.transactions.findMany({
-      where: {
-        userId,
-      },
-    });
+  async findAll() {
+    return this.prisma.transactions.findMany();
   }
 
-  async getSummary(userId: string) {
-    const transactions = await this.prisma.transactions.findMany({
-      where: {
-        userId,
-      },
-    });
+  async getSummary() {
+    const transactions = await this.prisma.transactions.findMany();
 
     return transactions.reduce(
       (acc, transaction) => {
@@ -53,21 +45,16 @@ export class TransactionsService {
     );
   }
 
-  async findOne(transactionId: string, userId: string) {
+  async findOne(transactionId: string) {
     return this.prisma.transactions.findFirst({
       where: {
         id: transactionId,
-        userId: userId,
       },
     });
   }
 
-  async update(
-    transctionId: string,
-    userId: string,
-    data: UpdateTransactionDto,
-  ) {
-    const transaction = await this.findOne(transctionId, userId);
+  async update(transctionId: string, data: UpdateTransactionDto) {
+    const transaction = await this.findOne(transctionId);
 
     if (!transaction) {
       throw new CustomException('Transaction not found', 404);
@@ -81,8 +68,8 @@ export class TransactionsService {
     });
   }
 
-  async delete(transactionId: string, userId: string) {
-    const transaction = await this.findOne(transactionId, userId);
+  async delete(transactionId: string) {
+    const transaction = await this.findOne(transactionId);
 
     if (!transaction) {
       throw new CustomException('Transaction not found', 404);
